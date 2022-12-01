@@ -18,7 +18,7 @@ class Note {
     required String id,
     required String title,
     required String note,
-    required DateTime updatedAt,
+    required DateTime? updatedAt,
     required DateTime createdAt,
     required bool isPinned,
   }) {
