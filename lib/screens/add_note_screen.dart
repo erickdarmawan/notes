@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:notes/models/note.dart';
+import 'package:provider/provider.dart';
+import 'package:notes/providers/notes.dart';
 
 class AddNoteScreen extends StatefulWidget {
-  final Function(Note note) addNoteFn;
-  AddNoteScreen(this.addNoteFn);
-
   @override
   State<AddNoteScreen> createState() => _AddNoteScreenState();
 }
 
 class _AddNoteScreenState extends State<AddNoteScreen> {
   Note _note =
-      Note(id: '', title: '', note: '', updatedAt: null!, createdAt: null!);
+      Note(id: '', title: '', note: '', updatedAt: null, createdAt: null);
 
   final _formKey = GlobalKey<FormState>();
 
@@ -19,7 +18,8 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     _formKey.currentState?.save();
     final now = DateTime.now();
     _note = _note.copyWith(updatedAt: now, createdAt: now);
-    widget.addNoteFn(_note);
+    final notesProvider = Provider.of<Notes>(context, listen: false);
+    notesProvider.addNote(_note);
     Navigator.of(context).pop();
   }
 
@@ -44,7 +44,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   border: InputBorder.none,
                 ),
                 onSaved: (value) {
-                  _note = _note.copyWith(value.toString());
+                  _note = _note.copyWith(title: value);
                 },
               ),
               TextFormField(
@@ -52,7 +52,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     hintText: 'Tulis catatan disini...',
                     border: InputBorder.none),
                 onSaved: (value) {
-                  _note.copyWith(value.toString());
+                  _note = _note.copyWith(note: value);
                 },
               )
             ],

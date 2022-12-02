@@ -1,14 +1,10 @@
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/providers/notes.dart';
 import 'package:notes/widgets/note_item.dart';
-
+import 'package:provider/provider.dart';
 import '../models/note.dart';
 
 class NotesGrid extends StatefulWidget {
-  final List<Note> listNote;
-  final Function(String id) toggleIsPinnedFn;
-
-  NotesGrid(this.listNote, this.toggleIsPinnedFn);
   @override
   State<NotesGrid> createState() => _NotesGridState();
 }
@@ -16,19 +12,14 @@ class NotesGrid extends StatefulWidget {
 class _NotesGridState extends State<NotesGrid> {
   @override
   Widget build(BuildContext context) {
-    List<Note> tempListNote =
-        widget.listNote.where((note) => note.isPinned).toList();
-    tempListNote.addAll(widget.listNote.where((note) => !note.isPinned));
+    final notesProvider = Provider.of<Notes>(context);
+    List<Note> listNote = notesProvider.notes;
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: GridView.builder(
-        itemCount: widget.listNote.length,
+        itemCount: listNote.length,
         itemBuilder: (ctx, index) => NoteItem(
-          id: tempListNote[index].id,
-          title: tempListNote[index].title,
-          note: tempListNote[index].note,
-          isPinned: tempListNote[index].isPinned,
-          toggleIsPinnedFn: widget.toggleIsPinnedFn,
+          id: listNote[index].id,
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

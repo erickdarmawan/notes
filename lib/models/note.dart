@@ -2,8 +2,8 @@ class Note {
   final String id;
   final String title;
   final String note;
-  final DateTime updatedAt;
-  final DateTime createdAt;
+  final DateTime? updatedAt;
+  final DateTime? createdAt;
   bool isPinned;
 
   Note(
@@ -15,20 +15,20 @@ class Note {
       this.isPinned = false});
 
   Note copyWith({
-    required String id,
-    required String title,
-    required String note,
-    required DateTime? updatedAt,
-    required DateTime createdAt,
-    required bool isPinned,
+    String? id,
+    String? title,
+    String? note,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+    bool? isPinned,
   }) {
     return Note(
-      id: id == null ? this.id : id,
-      title: title == null ? this.title : title,
-      note: note == null ? this.note : note,
-      updatedAt: updatedAt == null ? this.updatedAt : updatedAt,
-      createdAt: createdAt == null ? this.createdAt : createdAt,
-      isPinned: isPinned == null ? this.isPinned : isPinned,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      note: note ?? this.note,
+      updatedAt: updatedAt ?? this.updatedAt,
+      createdAt: createdAt ?? this.createdAt,
+      isPinned: isPinned ?? this.isPinned,
     );
   }
 }
