@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:notes/screens/add_note_screen.dart';
+import 'package:flutter/rendering.dart';
+import 'package:notes/screens/add_or_detail_screen.dart';
 import 'package:notes/widgets/notes_grid.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/notes.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -16,11 +18,19 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Notes'),
       ),
-      body: NotesGrid(),
+      body: FutureBuilder(
+        future: Provider.of<Notes>(context, listen: false).getAndSetNotes(),
+        builder: (context, notesSnapshot) {
+          if (notesSnapshot.connectionState == ConnectionState.waiting)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          return NotesGrid();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (builder) => AddNoteScreen()));
+          Navigator.of(context).pushNamed(AddOrDetailScreen.routeName);
         },
         child: Icon(
           Icons.add,

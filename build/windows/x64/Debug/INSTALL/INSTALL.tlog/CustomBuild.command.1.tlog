@@ -1,0 +1,10 @@
+^C:\USERS\USER\MY_PRACTICE_PROJECT\NOTES\BUILD\WINDOWS\CMAKEFILES\DEA1406B4122656C2BED2AA048B419AB\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
