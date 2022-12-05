@@ -14,19 +14,41 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   Note _note =
       Note(id: '', title: '', note: '', updatedAt: null, createdAt: null);
 
+  bool _init = true;
+  bool _isLoading = false;
+
   final _formKey = GlobalKey<FormState>();
 
   bool init = true;
 
-  void submitNote() {
+  void submitNote() async {
     _formKey.currentState?.save();
-    final now = DateTime.now();
-    _note = _note.copyWith(updatedAt: now, createdAt: now);
-    final notesProvider = Provider.of<Notes>(context, listen: false);
-    if (_note.id == null) {
-      notesProvider.addNote(_note);
-    } else {
-      notesProvider.updateNote(_note);
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final now = DateTime.now();
+      _note = _note.copyWith(updatedAt: now, createdAt: now);
+      final notesProvider = Provider.of<Notes>(context, listen: false);
+      if (_note.id == null) {
+        await notesProvider.addNote(_note);
+      } else {
+        await notesProvider.updateNote(_note);
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (builder) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(e.toString()),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Tutup'))
+              ],
+            );
+          });
     }
 
     Navigator.of(context).pop();
@@ -34,13 +56,13 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    if (init) {
+    if (_init) {
       String id = ModalRoute.of(context)?.settings.arguments as String;
       if (id != null) {
         _note = Provider.of<Notes>(context).getNote(id);
       }
       _note = Provider.of<Notes>(context).getNote(id);
-      init = false;
+      _init = false;
     }
     super.didChangeDependencies();
   }
@@ -57,7 +79,12 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
       appBar: AppBar(actions: [
         TextButton(
           onPressed: submitNote,
-          child: Text('Simpan'),
+          child: _isLoading
+              ? CircularProgressIndicator()
+              : Text(
+                  'Simpan',
+                  style: TextStyle(color: Colors.white),
+                ),
         )
       ]),
       body: Stack(
