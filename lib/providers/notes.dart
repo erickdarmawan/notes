@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:notes/api/note_api.dart';
 import 'package:notes/models/note.dart';
 
 class Notes with ChangeNotifier {
-  final List<Note> _note = [
+  List<Note> _notes = [
     Note(
       id: 'N1',
       title: 'Catatan Materi Flutter',
@@ -36,26 +37,48 @@ class Notes with ChangeNotifier {
     )
   ];
 
+  Future<void> getAndSetNotes() async {
+    _notes = await NoteApi().getAllNote();
+    notifyListeners();
+  }
+
   List<Note> get notes {
-    List<Note> tempListNote = _note.where((note) => note.isPinned).toList();
-    tempListNote.addAll(_note.where((note) => !note.isPinned));
+    List<Note> tempListNote = _notes.where((note) => note.isPinned).toList();
+    tempListNote.addAll(_notes.where((note) => !note.isPinned));
     return tempListNote;
   }
 
   void togglePinned(String id) {
-    int index = _note.indexWhere((note) => note.id == id);
+    int index = _notes.indexWhere((note) => note.id == id);
     if (index >= 0) {
-      _note[index].isPinned = !_note[index].isPinned;
+      _notes[index].isPinned = !_notes[index].isPinned;
+      _notes[index] = _notes[index].copyWith(updatedAt: DateTime.now());
+      NoteApi()
+          .toggleIsPinned(id, _notes[index].isPinned, _notes[index].updatedAt);
       notifyListeners();
     }
   }
 
-  void addNote(Note note) {
-    _note.add(note);
+  Future<void> addNote(Note note) async {
+    String? id = await NoteApi().postNote(note);
+    note = note.copyWith(id: id);
+    _notes.add(note);
     notifyListeners();
   }
 
   Note getNote(String id) {
-    return _note.firstWhere((note) => note.id == id);
+    return _notes.firstWhere((note) => note.id == id);
+  }
+
+  Future<void> updateNote(Note newNote) async {
+    await NoteApi().updateNote(newNote);
+    int index = _notes.indexWhere((note) => note.id == newNote.id);
+    _notes[index] = newNote;
+    notifyListeners();
+  }
+
+  void deleteNote(String id) {
+    _notes.removeWhere((note) => note.id == id);
+    notifyListeners();
   }
 }
