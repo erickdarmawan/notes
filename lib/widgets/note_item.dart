@@ -37,7 +37,7 @@ class _NoteItemState extends State<NoteItem> {
               alignment: Alignment.topRight,
               child: IconButton(
                   onPressed: () {
-                    notesProvider.togglePinned(note.id);
+                    notesProvider.toggleIsPinned(note.id);
                   },
                   icon: Icon(note.isPinned
                       ? Customicon.pin
@@ -56,7 +56,7 @@ class _NoteItemState extends State<NoteItem> {
                 border: Border.all(),
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.grey[800]),
-            child: Text(note.note),
+            child: Text(note.notes),
             padding: const EdgeInsets.all(12),
           ),
         ),

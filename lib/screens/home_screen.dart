@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:notes/screens/add_or_detail_screen.dart';
 import 'package:notes/widgets/notes_grid.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/notes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +23,11 @@ class _HomeScreenState extends State<HomeScreen> {
             return Center(
               child: CircularProgressIndicator(),
             );
+          if (notesSnapshot.hasError) {
+            return Center(
+              child: Text(notesSnapshot.error.toString()),
+            );
+          }
           return NotesGrid();
         },
       ),

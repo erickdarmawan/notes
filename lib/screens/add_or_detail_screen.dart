@@ -12,7 +12,7 @@ class AddOrDetailScreen extends StatefulWidget {
 
 class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   Note _note =
-      Note(id: '', title: '', note: '', updatedAt: null, createdAt: null);
+      Note(id: '', title: '', notes: '', updatedAt: null, createdAt: null);
 
   bool _init = true;
   bool _isLoading = false;
@@ -108,7 +108,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
                       },
                     ),
                     TextFormField(
-                      initialValue: _note.note,
+                      initialValue: _note.notes,
                       decoration: InputDecoration(
                           hintText: 'Tulis catatan disini...',
                           border: InputBorder.none),

@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:notes/models/note.dart';
 
@@ -21,7 +19,7 @@ class NoteApi {
           notes.add(Note(
               id: key,
               title: value['title'],
-              note: value['notes'],
+              notes: value['notes'],
               isPinned: value['isPinned'],
               updatedAt: DateTime.parse(value['updated_at']),
               createdAt: DateTime.parse(value['created_at'])));
@@ -42,7 +40,7 @@ class NoteApi {
         'https://notes-a14a2-default-rtdb.asia-southeast1.firebasedatabase.app/note.json');
     Map<String, dynamic> map = {
       'title': note.title,
-      'note': note.note,
+      'note': note.notes,
       'isPinned': note.isPinned,
       'updated_at': note.updatedAt?.toIso8601String(),
       'created_at': note.createdAt?.toIso8601String(),
@@ -69,7 +67,7 @@ class NoteApi {
           'https://notes-a14a2-default-rtdb.asia-southeast1.firebasedatabase.app/note/${note.id}.json');
       Map<String, dynamic> map = {
         'title': note.title,
-        'note': note.note,
+        'note': note.notes,
         'updated_at': note.updatedAt?.toIso8601String(),
       };
       try {
@@ -85,12 +83,12 @@ class NoteApi {
   }
 
   Future<void> toggleIsPinned(
-      String id, bool isPinned, DateTime updatedAt) async {
+      String id, bool isPinned, DateTime? updatedAt) async {
     final uri = Uri.parse(
         'https://notes-a14a2-default-rtdb.asia-southeast1.firebasedatabase.app/note/id.json');
     Map<String, dynamic> map = {
       'isPinned': isPinned,
-      'updated_at': updatedAt.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
     final body = json.encode(map);
     final response = await http.patch(uri, body: body);
