@@ -5,6 +5,7 @@ import 'package:notes/api/note_api.dart';
 import 'package:notes/database/database_helper.dart';
 import 'package:notes/models/note.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:collection/collection.dart';
 
 class Notes with ChangeNotifier {
   List<Note> _notes = [
@@ -99,7 +100,7 @@ class Notes with ChangeNotifier {
   }
 
   Note getNote(String id) {
-    return _notes.firstWhere((note) => note.id == id);
+    return _notes.firstWhereOrNull((note) => note.id == id) ?? Note(id: '', title: '', notes: '');
   }
 
   Future<void> updateNote(Note newNote) async {

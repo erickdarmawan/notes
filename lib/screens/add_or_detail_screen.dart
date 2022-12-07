@@ -35,7 +35,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
       final now = DateTime.now();
       _note = _note.copyWith(updatedAt: now, createdAt: now);
       final notesProvider = Provider.of<Notes>(context, listen: false);
-      if (_note.id == null) {
+      if (_note.id == '') {
         await notesProvider.addNote(_note);
       } else {
         await notesProvider.updateNote(_note);
