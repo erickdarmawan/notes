@@ -1,4 +1,4 @@
-#Wed Dec 07 14:03:14 ICT 2022
-base.0=C\:\\Users\\Erick\\Documents\\app_project\\notes\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Wed Dec 07 16:13:31 ICT 2022
+base.0=C\:\\Users\\User\\my_practice_project\\notes\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

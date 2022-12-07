@@ -62,13 +62,15 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   @override
   void didChangeDependencies() {
     if (_init) {
-      final String id = ModalRoute.of(context)?.settings.arguments as String;
-      if (id != null) {
-        _note = Provider.of<Notes>(context).getNote(id);
-      }
+      final String id =
+          (ModalRoute.of(context)?.settings.arguments ?? '') as String;
+      // if (id != null) {
+      //   _note = Provider.of<Notes>(context).getNote(id);
+      // }
       _note = Provider.of<Notes>(context).getNote(id);
       _init = false;
     }
+    super.didChangeDependencies();
   }
 
   String _convertDate(DateTime? dateTime) {
