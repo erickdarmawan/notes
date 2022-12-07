@@ -42,8 +42,10 @@ class NoteApi {
       'title': note.title,
       'note': note.notes,
       'isPinned': note.isPinned,
-      'updated_at': note.updatedAt?.toIso8601String(),
-      'created_at': note.createdAt?.toIso8601String(),
+      'updated_at':
+          note.updatedAt == null ? null : note.updatedAt!.toIso8601String(),
+      'created_at':
+          note.createdAt == null ? null : note.createdAt!.toIso8601String(),
     };
     try {
       final body = json.encode(map);
@@ -103,7 +105,7 @@ class NoteApi {
         throw Exception();
       }
     } on SocketException {
-      throw SocketException('Tidak dapat tersambung ke internet');
+      throw const SocketException('Tidak dapat tersambung ke internet');
     } catch (e) {
       throw Exception('Error, terjadi kesalahan');
     }

@@ -11,8 +11,11 @@ class AddOrDetailScreen extends StatefulWidget {
 }
 
 class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
-  Note _note =
-      Note(id: '', title: '', notes: '', updatedAt: null, createdAt: null);
+  Note _note = Note(
+    id: '',
+    title: '',
+    notes: '',
+  );
 
   bool _init = true;
   bool _isLoading = false;
@@ -22,7 +25,9 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   bool init = true;
 
   void submitNote() async {
-    _formKey.currentState?.save();
+    if (_formKey.currentState != null) {
+      _formKey.currentState?.save();
+    }
     setState(() {
       _isLoading = true;
     });
@@ -57,14 +62,13 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   @override
   void didChangeDependencies() {
     if (_init) {
-      String id = ModalRoute.of(context)?.settings.arguments as String;
+      final String id = ModalRoute.of(context)?.settings.arguments as String;
       if (id != null) {
         _note = Provider.of<Notes>(context).getNote(id);
       }
       _note = Provider.of<Notes>(context).getNote(id);
       _init = false;
     }
-    super.didChangeDependencies();
   }
 
   String _convertDate(DateTime? dateTime) {

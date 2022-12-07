@@ -12,8 +12,8 @@ class Note {
       {required this.id,
       required this.title,
       required this.notes,
-      required this.updatedAt,
-      required this.createdAt,
+      this.updatedAt,
+      this.createdAt,
       this.isPinned = false});
 
   Note.fromDb(Map<String, dynamic> data)

@@ -32,7 +32,8 @@ class DatabaseHelper {
           db.execute('''
             CREATE TABLE test_upgrade(
             id TEXT PRIMARY KEY,
-            title TEXT)
+            title TEXT
+            )
             ''');
         }
         if (oldVersion == 2 && newVersion == 3) {
