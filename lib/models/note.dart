@@ -3,7 +3,7 @@ import '../database/database_helper.dart';
 class Note {
   final String id;
   final String title;
-  final String notes;
+  final String note;
   final DateTime? updatedAt;
   final DateTime? createdAt;
   bool isPinned;
@@ -11,7 +11,7 @@ class Note {
   Note(
       {required this.id,
       required this.title,
-      required this.notes,
+      required this.note,
       this.updatedAt,
       this.createdAt,
       this.isPinned = false});
@@ -19,7 +19,7 @@ class Note {
   Note.fromDb(Map<String, dynamic> data)
       : id = data[DatabaseHelper.TABLE_NOTES_ID],
         title = data[DatabaseHelper.TABLE_NOTES_TITLE],
-        notes = data[DatabaseHelper.TABLE_NOTES_NOTE],
+        note = data[DatabaseHelper.TABLE_NOTES_NOTE],
         isPinned = data['test_column_baru'] == 1,
         updatedAt = DateTime.parse(data[DatabaseHelper.TABLE_NOTES_UPDATEDAT]),
         createdAt = DateTime.parse(data[DatabaseHelper.TABLE_NOTES_CREATEDAT]);
@@ -28,7 +28,7 @@ class Note {
     return {
       DatabaseHelper.TABLE_NOTES_ID: id,
       DatabaseHelper.TABLE_NOTES_TITLE: title,
-      DatabaseHelper.TABLE_NOTES_NOTE: notes,
+      DatabaseHelper.TABLE_NOTES_NOTE: note,
       DatabaseHelper.TABLE_NOTES_ISPINNED: isPinned ? 1 : 0,
       DatabaseHelper.TABLE_NOTES_UPDATEDAT: updatedAt?.toIso8601String(),
       DatabaseHelper.TABLE_NOTES_CREATEDAT: createdAt?.toIso8601String(),
@@ -46,7 +46,7 @@ class Note {
     return Note(
       id: id ?? this.id,
       title: title ?? this.title,
-      notes: note ?? this.notes,
+      note: note ?? this.note,
       updatedAt: updatedAt ?? this.updatedAt,
       createdAt: createdAt ?? this.createdAt,
       isPinned: isPinned ?? this.isPinned,

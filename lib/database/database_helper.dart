@@ -3,9 +3,9 @@ import 'package:path/path.dart';
 import '../models/note.dart';
 
 class DatabaseHelper {
-  static const TABLE_NOTES = 'notes';
+  static const TABLE_NOTES = 'note';
   static const TABLE_NOTES_ID = 'id';
-  static const TABLE_NOTES_NOTE = 'notes';
+  static const TABLE_NOTES_NOTE = 'note';
   static const TABLE_NOTES_TITLE = 'title';
   static const TABLE_NOTES_ISPINNED = 'isPinned';
   static const TABLE_NOTES_UPDATEDAT = 'updated_at';
@@ -24,7 +24,7 @@ class DatabaseHelper {
         $TABLE_NOTES_NOTE TEXT,
         $TABLE_NOTES_ISPINNED INTEGER,
         $TABLE_NOTES_UPDATEDAT TEXT,
-        $TABLE_NOTES_CREATEDAT TEXT
+        $TABLE_NOTES_CREATEDAT TEXT)
         ''');
       },
       onUpgrade: (db, oldVersion, newVersion) {

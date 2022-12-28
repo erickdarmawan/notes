@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
         future: Provider.of<Notes>(context, listen: false).getAndSetNotes(),
         builder: (context, notesSnapshot) {
           if (notesSnapshot.connectionState == ConnectionState.waiting)
-            return Center(
-              child: CircularProgressIndicator(),
+            return const Center(
+              child: const CircularProgressIndicator(),
             );
           if (notesSnapshot.hasError) {
             return Center(
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.of(context).pushNamed(AddOrDetailScreen.routeName);
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
