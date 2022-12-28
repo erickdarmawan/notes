@@ -14,10 +14,9 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   Note _note = Note(
     id: '',
     title: '',
-    notes: '',
+    note: '',
   );
 
-  bool _init = true;
   bool _isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -35,7 +34,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
       final now = DateTime.now();
       _note = _note.copyWith(updatedAt: now, createdAt: now);
       final notesProvider = Provider.of<Notes>(context, listen: false);
-      if (_note.id == '') {
+      if (_note.id != null) {
         await notesProvider.addNote(_note);
       } else {
         await notesProvider.updateNote(_note);
@@ -45,12 +44,12 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
           context: context,
           builder: (builder) {
             return AlertDialog(
-              title: Text('Error'),
+              title: const Text('Error'),
               content: Text(e.toString()),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text('Tutup'))
+                    child: const Text('Tutup'))
               ],
             );
           });
@@ -61,14 +60,13 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
 
   @override
   void didChangeDependencies() {
-    if (_init) {
-      final String id =
-          (ModalRoute.of(context)?.settings.arguments ?? '') as String;
-      // if (id != null) {
-      //   _note = Provider.of<Notes>(context).getNote(id);
-      // }
-      _note = Provider.of<Notes>(context).getNote(id);
-      _init = false;
+    if (init) {
+      final String? id = ModalRoute.of(context)?.settings.arguments as String?;
+      if (id != null) {
+        _note = Provider.of<Notes>(context).getNote(id);
+      }
+
+      init = false;
     }
     super.didChangeDependencies();
   }
@@ -97,7 +95,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
         children: [
           Container(
             height: double.infinity,
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -105,7 +103,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
                   children: [
                     TextFormField(
                       initialValue: _note.title,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Judul',
                         border: InputBorder.none,
                       ),
@@ -114,8 +112,8 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
                       },
                     ),
                     TextFormField(
-                      initialValue: _note.notes,
-                      decoration: InputDecoration(
+                      initialValue: _note.note,
+                      decoration: const InputDecoration(
                           hintText: 'Tulis catatan disini...',
                           border: InputBorder.none),
                       maxLines: null,
