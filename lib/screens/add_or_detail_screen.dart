@@ -62,9 +62,7 @@ class _AddOrDetailScreenState extends State<AddOrDetailScreen> {
   void didChangeDependencies() {
     if (init) {
       final String? id = ModalRoute.of(context)?.settings.arguments as String?;
-      if (id != null) {
-        _note = Provider.of<Notes>(context).getNote(id);
-      }
+      if (id != null) _note = Provider.of<Notes>(context).getNote(id);
 
       init = false;
     }
